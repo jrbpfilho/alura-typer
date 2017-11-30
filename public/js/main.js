@@ -73,14 +73,26 @@ function inicializaMarcadores() {
   var frase = $(".frase").text();
   campo.on("input", function() {
     var digitado = campo.val();
-    var comparavel = frase.substr(0, digitado.length);
 
-    if(digitado == comparavel) {
+    //ES6 definition
+
+    var digitouCorreto = frase.startsWith(digitado);
+    if(digitouCorreto) {
       campo.addClass("borda-verde");
-      campo.removeClass("borda-vermelha");
+
     } else {
       campo.addClass("borda-vermelha");
-      campo.removeClass("borda-verde");
     }
+
+    // Before ES6
+    // var comparavel = frase.substr(0, digitado.length);
+    //
+    // if(digitado == comparavel) {
+    //   campo.addClass("borda-verde");
+    //   campo.removeClass("borda-vermelha");
+    // } else {
+    //   campo.addClass("borda-vermelha");
+    //   campo.removeClass("borda-verde");
+    // }
   });
 }
