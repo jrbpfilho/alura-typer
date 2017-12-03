@@ -11,6 +11,17 @@ $(function() {
 
   atualizaPlacar();
 
+  // inicializar selectize
+  $("#usuarios").selectize({
+    create: true,
+    sortField: 'text'
+  });
+
+  //inicializar tooltipster
+  $(".tooltip").tooltipster({
+    trigger: "custom"
+  });
+
 });
 
 function atualizaTempoInicial(tempo) {
