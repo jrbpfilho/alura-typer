@@ -1,3 +1,5 @@
+$("#botao-sync").click(sincronizaPlacar);
+
 function inserePlacar() {
   var corpoTabela = $(".placar").find("tbody");
   var usuario = "Seu-nome";
@@ -59,4 +61,46 @@ $("#botao-placar").click(mostraPlacar);
 
 function mostraPlacar() {
   $(".placar").stop().slideToggle(600);
+}
+
+function sincronizaPlacar() {
+  var placar = [];
+  var linhas = $("tbody>tr");
+
+  //laço pelas linhas
+
+  linhas.each(function() {
+    var usuario = $(this).find("td:nth-child(1)").text();
+    var palavras = $(this).find("td:nth-child(2)").text();
+
+    var score = {
+      usuario: usuario,
+      pontos: palavras
+    };
+
+    placar.push(score); //guardando o score no array de dados
+
+  });
+
+  // criando a requisição AJAX, para transformar o placar em um objeto javascript
+  var dados = {
+    placar:placar
+  };
+
+  //salvando no DB
+
+  $.post("http://localhost:3000/placar", dados, function() {
+    console.log("Placar Sincronizado com sucesso!");
+  });
+}
+
+function atualizaPlacar() {
+  $.get("http://localhost:3000/placar", function(data) {
+    $(data).each(function() {
+      var linha = novaLinha(this.usuario, this.pontos);
+
+      linha.find(".botao-remover").click(removeLinha);
+      $("tbody").append(linha);
+    });
+  });
 }
